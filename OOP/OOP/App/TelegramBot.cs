@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,12 +11,14 @@ using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.InlineQueryResults;
 using Telegram.Bot.Types.InputMessageContents;
 using Telegram.Bot.Types.ReplyMarkups;
-namespace OOP
+
+namespace OOP.App
 {
-    class Program
+    class TelegramBot
     {
         private static readonly TelegramBotClient Bot = new TelegramBotClient("364823821:AAHIBUfvkkykh-mRBsFTlPEGhOrAqpm1fkU");
-        static void Main(string[] args)
+
+        public TelegramBot()
         {
             Bot.OnCallbackQuery += BotOnCallbackQueryReceived;
             Bot.OnMessage += BotOnMessageReceived;
@@ -26,9 +27,11 @@ namespace OOP
             Bot.OnInlineResultChosen += BotOnChosenInlineResultReceived;
             Bot.OnReceiveError += BotOnReceiveError;
             var me = Bot.GetMeAsync().Result;
+           
+        }
 
-            Console.Title = me.Username;
-
+        public void Run()
+        {
             Bot.StartReceiving();
             Console.ReadLine();
             Bot.StopReceiving();
