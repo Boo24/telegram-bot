@@ -1,1 +1,12 @@
 c:\users\bubub\onedrive\документы\visual studio 2015\Projects\OOP\OOP\bin\Debug\OOP.exe.config
+C:\Users\bubub\OneDrive\документы\visual studio 2015\Projects\OOP\OOP\bin\Debug\OOP.exe
+C:\Users\bubub\OneDrive\документы\visual studio 2015\Projects\OOP\OOP\bin\Debug\OOP.pdb
+C:\Users\bubub\OneDrive\документы\visual studio 2015\Projects\OOP\OOP\bin\Debug\Newtonsoft.Json.dll
+C:\Users\bubub\OneDrive\документы\visual studio 2015\Projects\OOP\OOP\bin\Debug\System.Net.Http.Formatting.dll
+C:\Users\bubub\OneDrive\документы\visual studio 2015\Projects\OOP\OOP\bin\Debug\Telegram.Bot.dll
+C:\Users\bubub\OneDrive\документы\visual studio 2015\Projects\OOP\OOP\bin\Debug\Newtonsoft.Json.xml
+C:\Users\bubub\OneDrive\документы\visual studio 2015\Projects\OOP\OOP\bin\Debug\System.Net.Http.Formatting.xml
+C:\Users\bubub\OneDrive\документы\visual studio 2015\Projects\OOP\OOP\bin\Debug\Telegram.Bot.xml
+C:\Users\bubub\OneDrive\документы\visual studio 2015\Projects\OOP\OOP\obj\Debug\OOP.csprojResolveAssemblyReference.cache
+C:\Users\bubub\OneDrive\документы\visual studio 2015\Projects\OOP\OOP\obj\Debug\OOP.exe
+C:\Users\bubub\OneDrive\документы\visual studio 2015\Projects\OOP\OOP\obj\Debug\OOP.pdb
