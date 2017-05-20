@@ -1,5 +1,8 @@
-﻿namespace CookBot.Domain.Model
+﻿using System;
+
+namespace CookBot.Domain.Model
 {
+    [Serializable]
     public class IngredientAmount : IIngredientAmount
     {
         public string MeasureUnit { get; private set; }

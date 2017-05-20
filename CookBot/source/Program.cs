@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using CookBot.Domain.Model;
 using Telegram.Bot;
 using Telegram.Bot.Args;
 using Telegram.Bot.Types;
@@ -8,6 +9,8 @@ using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.InlineQueryResults;
 using Telegram.Bot.Types.InputMessageContents;
 using Telegram.Bot.Types.ReplyMarkups;
+using CookBot.Infrastructure.Databases;
+using CookBot.Infrastructure.Serialization;
 
 namespace CookBot
 {
@@ -16,7 +19,11 @@ namespace CookBot
         private static readonly TelegramBotClient Bot = new TelegramBotClient("364823821:AAHIBUfvkkykh-mRBsFTlPEGhOrAqpm1fkU");
         static void Main(string[] args)
         {
-            Bot.OnCallbackQuery += BotOnCallbackQueryReceived;
+            var db = new ArrayDatabase<Recipe>(@".\databases\ArrayDatabase.bin", new BinarySerializer());
+            var a = db.GetAnySuitable(p => p.Name == "Бутерброд");
+            Console.WriteLine(a.Description);
+            Console.ReadLine();
+            /*Bot.OnCallbackQuery += BotOnCallbackQueryReceived;
             Bot.OnMessage += BotOnMessageReceived;
             Bot.OnMessageEdited += BotOnMessageReceived;
             Bot.OnInlineQuery += BotOnInlineQueryReceived;
@@ -28,7 +35,7 @@ namespace CookBot
 
             Bot.StartReceiving();
             Console.ReadLine();
-            Bot.StopReceiving();
+            Bot.StopReceiving();*/
         }
         private static void BotOnReceiveError(object sender, ReceiveErrorEventArgs receiveErrorEventArgs)
         {

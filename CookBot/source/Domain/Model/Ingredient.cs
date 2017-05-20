@@ -1,5 +1,8 @@
-﻿namespace CookBot.Domain.Model
+﻿using System;
+
+namespace CookBot.Domain.Model
 {
+    [Serializable]
     public class Ingredient : IIngredient
     {
         public string Name { get; }

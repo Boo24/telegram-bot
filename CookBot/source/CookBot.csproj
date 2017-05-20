@@ -84,13 +84,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App\TelegramBot.cs" />
-    <Compile Include="Domain\Databases\IDatabase.cs" />
-    <Compile Include="Domain\Databases\MongoDatabase.cs" />
+    <Compile Include="Infrastructure\Databases\IDatabase.cs" />
     <Compile Include="Domain\Model\IIngredient.cs" />
     <Compile Include="Domain\Model\IIngredientAmount.cs" />
     <Compile Include="Domain\Model\Ingredient.cs" />
     <Compile Include="Domain\Model\IngredientAmount.cs" />
     <Compile Include="Domain\Model\Recipe.cs" />
+    <Compile Include="Infrastructure\Databases\ArrayDatabase.cs" />
+    <Compile Include="Infrastructure\Serialization\ISerializer.cs" />
+    <Compile Include="Infrastructure\Serialization\Serializer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -110,9 +112,7 @@
       <Install>false</Install>
     </BootstrapperPackage>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Infrastructure\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
