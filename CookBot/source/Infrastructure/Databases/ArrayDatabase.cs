@@ -8,7 +8,7 @@ namespace CookBot.Infrastructure.Databases
 {
     public class ArrayDatabase<T> : IDatabase<T>
     {
-        public T[] Data { get; }
+        public T[] Data { get; set; }
         public ISerializer Serializer { get; }
 
         public ArrayDatabase(string fileName, ISerializer serializer)
@@ -42,7 +42,7 @@ namespace CookBot.Infrastructure.Databases
 
         public void SaveDatabase(string fileName)
         {
-            using (Stream stream = File.OpenRead(fileName))
+            using (Stream stream = File.OpenWrite(fileName))
             {
                 Serializer.Serialize(Data, stream);
             }

@@ -6,14 +6,19 @@ namespace CookBot.Domain.Model
     [Serializable]
     public class Recipe
     {
-        public int Id { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
-        public Dictionary<IIngredient, IIngredientAmount> Components = new Dictionary<IIngredient, IIngredientAmount>();
+        public int Id { get;}
+        public string Name { get;}
+        public string Description { get; }
 
-        public override string ToString()
+        public Dictionary<IIngredient, IIngredientAmount> Components;
+
+
+        public string GetPrintableView()
         {
-            return base.ToString();
+            string result = $"*Название: {Name}\n*Рецепт: {Description}\n*Ингридиенты:\n";
+            foreach (var component in Components)
+                result += $"-{component.Key.Name} {component.Value.Count} {component.Value.MeasureUnit}\n";
+            return result;
         }
     }
 }
