@@ -1,32 +1,23 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Threading.Tasks;
 using CookBot.Domain.Model;
 using CookBot.Infrastructure.Databases;
-using source.App;
 using Telegram.Bot;
 using Telegram.Bot.Args;
-using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.InlineQueryResults;
 using Telegram.Bot.Types.InputMessageContents;
-using Telegram.Bot.Types.ReplyMarkups;
 using source.App.Commands;
 using System.Collections.Generic;
-using System.Linq;
-using Ninject;
 
-namespace CookBot.App
+namespace source.App
 {
-    class TelegramBot : IBot
+    class TelegramCookBot : CookBot
     {
         private static readonly TelegramBotClient Bot = new TelegramBotClient("364823821:AAHIBUfvkkykh-mRBsFTlPEGhOrAqpm1fkU");
-        public static IDatabase<Recipe> Db;
-        public List<IBotCommand> Commands { get; }
 
-        public TelegramBot(IDatabase<Recipe> database, List<IBotCommand> commands)
+        public TelegramCookBot(IDatabase<Recipe> database, List<IBotCommand> commands) : base(database, commands)
         {
-            Commands = commands;
             Bot.OnCallbackQuery += BotOnCallbackQueryReceived;
             Bot.OnMessage += BotOnMessageReceived;
             Bot.OnMessageEdited += BotOnMessageReceived;
@@ -34,7 +25,6 @@ namespace CookBot.App
             Bot.OnInlineResultChosen += BotOnChosenInlineResultReceived;
             Bot.OnReceiveError += BotOnReceiveError;
             var me = Bot.GetMeAsync().Result;
-            Db = database;
         }
 
         public void Run()
@@ -42,21 +32,6 @@ namespace CookBot.App
             Bot.StartReceiving();
             Console.ReadLine();
             Bot.StopReceiving();
-        }
-
-        public string HandleCommand(string message)
-        {
-            var query = message.Split(' ');
-            foreach (var command in Commands)
-            {
-                if (command.Name == query[0])
-                {
-                    var result = command.Execute(Db, query.Skip(1).ToArray());
-                    if (result != null)
-                        return result;
-                }
-            }
-            return HandleCommand("/help");
         }
 
         public async void SendMessage(string message, long chatId)

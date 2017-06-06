@@ -9,8 +9,8 @@ namespace source.App
 {
     interface IBot
     {
-        void Run();
-        string HandleCommand(string command);
-        void SendMessage(string message, long chatId);
+        //void Run();
+        string HandleCommand(string message);
+        //void SendMessage(string message, long chatId);
     }
 }

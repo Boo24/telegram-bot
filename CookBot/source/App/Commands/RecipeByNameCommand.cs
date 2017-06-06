@@ -1,4 +1,5 @@
 ﻿using System;
+using CookBot.Domain;
 using CookBot.Domain.Model;
 using CookBot.Infrastructure.Databases;
 

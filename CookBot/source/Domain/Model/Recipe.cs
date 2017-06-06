@@ -11,14 +11,5 @@ namespace CookBot.Domain.Model
         public string Description { get; }
 
         public Dictionary<IIngredient, IIngredientAmount> Components;
-
-
-        public string GetPrintableView()
-        {
-            string result = $"*Название: {Name}\n*Рецепт: {Description}\n*Ингридиенты:\n";
-            foreach (var component in Components)
-                result += $"-{component.Key.Name} {component.Value.Count} {component.Value.MeasureUnit}\n";
-            return result;
-        }
     }
 }
