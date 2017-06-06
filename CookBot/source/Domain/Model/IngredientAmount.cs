@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace CookBot.Domain.Model
+namespace source.Domain.Model
 {
     [Serializable]
     public class IngredientAmount : IIngredientAmount

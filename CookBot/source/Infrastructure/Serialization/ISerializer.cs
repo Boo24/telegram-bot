@@ -1,6 +1,6 @@
 ﻿using System.IO;
 
-namespace CookBot.Infrastructure.Serialization
+namespace source.Infrastructure.Serialization
 {
     public interface ISerializer
     {

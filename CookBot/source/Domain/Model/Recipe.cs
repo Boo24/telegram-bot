@@ -1,24 +1,20 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace CookBot.Domain.Model
+namespace source.Domain.Model
 {
     [Serializable]
     public class Recipe
     {
-        public int Id { get;}
-        public string Name { get;}
-        public string Description { get; }
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
 
-        public Dictionary<IIngredient, IIngredientAmount> Components;
+        public Dictionary<IIngredient, IIngredientAmount> Components { get; set; }
 
-
-        public string GetPrintableView()
+        public Recipe()
         {
-            string result = $"*Название: {Name}\n*Рецепт: {Description}\n*Ингридиенты:\n";
-            foreach (var component in Components)
-                result += $"-{component.Key.Name} {component.Value.Count} {component.Value.MeasureUnit}\n";
-            return result;
+            Components = new Dictionary<IIngredient, IIngredientAmount>();
         }
     }
 }

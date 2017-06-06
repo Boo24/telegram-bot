@@ -1,4 +1,4 @@
-﻿namespace CookBot.Domain.Model
+﻿namespace source.Domain.Model
 {
     public interface IIngredientAmount
     {

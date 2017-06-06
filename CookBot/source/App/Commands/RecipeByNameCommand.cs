@@ -1,6 +1,7 @@
 ﻿using System;
-using CookBot.Domain.Model;
-using CookBot.Infrastructure.Databases;
+using source.Domain;
+using source.Domain.Model;
+using source.Infrastructure.Databases;
 
 namespace source.App.Commands
 {

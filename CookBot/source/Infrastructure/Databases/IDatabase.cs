@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace CookBot.Infrastructure.Databases
+namespace source.Infrastructure.Databases
 {
     public interface IDatabase<T>
     {

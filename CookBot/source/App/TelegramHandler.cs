@@ -1,67 +1,44 @@
 ﻿using System;
 using System.Diagnostics;
-using System.Threading.Tasks;
-using CookBot.Domain.Model;
-using CookBot.Infrastructure.Databases;
-using source.App;
+using source.Domain.Model;
+using source.Infrastructure.Databases;
 using Telegram.Bot;
 using Telegram.Bot.Args;
-using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.InlineQueryResults;
 using Telegram.Bot.Types.InputMessageContents;
-using Telegram.Bot.Types.ReplyMarkups;
 using source.App.Commands;
 using System.Collections.Generic;
-using System.Linq;
-using Ninject;
 
-namespace CookBot.App
+namespace source.App
 {
-    class TelegramBot : IBot
+    class TelegramHandler
     {
-        private static readonly TelegramBotClient Bot = new TelegramBotClient("364823821:AAHIBUfvkkykh-mRBsFTlPEGhOrAqpm1fkU");
-        public static IDatabase<Recipe> Db;
-        public List<IBotCommand> Commands { get; }
+        private static readonly TelegramBotClient TelegramClient = new TelegramBotClient("364823821:AAHIBUfvkkykh-mRBsFTlPEGhOrAqpm1fkU");
+        private IBot Bot { get; }
 
-        public TelegramBot(IDatabase<Recipe> database, List<IBotCommand> commands)
+        public TelegramHandler(IBot bot)
         {
-            Commands = commands;
-            Bot.OnCallbackQuery += BotOnCallbackQueryReceived;
-            Bot.OnMessage += BotOnMessageReceived;
-            Bot.OnMessageEdited += BotOnMessageReceived;
-            Bot.OnInlineQuery += BotOnInlineQueryReceived;
-            Bot.OnInlineResultChosen += BotOnChosenInlineResultReceived;
-            Bot.OnReceiveError += BotOnReceiveError;
-            var me = Bot.GetMeAsync().Result;
-            Db = database;
+            Bot = bot;
+            TelegramClient.OnCallbackQuery += BotOnCallbackQueryReceived;
+            TelegramClient.OnMessage += BotOnMessageReceived;
+            TelegramClient.OnMessageEdited += BotOnMessageReceived;
+            TelegramClient.OnInlineQuery += BotOnInlineQueryReceived;
+            TelegramClient.OnInlineResultChosen += BotOnChosenInlineResultReceived;
+            TelegramClient.OnReceiveError += BotOnReceiveError;
+            var me = TelegramClient.GetMeAsync().Result;
         }
 
         public void Run()
         {
-            Bot.StartReceiving();
+            TelegramClient.StartReceiving();
             Console.ReadLine();
-            Bot.StopReceiving();
-        }
-
-        public string HandleCommand(string message)
-        {
-            var query = message.Split(' ');
-            foreach (var command in Commands)
-            {
-                if (command.Name == query[0])
-                {
-                    var result = command.Execute(Db, query.Skip(1).ToArray());
-                    if (result != null)
-                        return result;
-                }
-            }
-            return HandleCommand("/help");
+            TelegramClient.StopReceiving();
         }
 
         public async void SendMessage(string message, long chatId)
         {
-            await Bot.SendTextMessageAsync(chatId, message);
+            await TelegramClient.SendTextMessageAsync(chatId, message);
         }
 
         private static void BotOnReceiveError(object sender, ReceiveErrorEventArgs receiveErrorEventArgs)
@@ -84,9 +61,9 @@ namespace CookBot.App
             var message = messageEventArgs.Message;
             if (message == null || message.Type != MessageType.TextMessage) return;
 
-            await Bot.SendChatActionAsync(message.Chat.Id, ChatAction.Typing);
-            var answer = HandleCommand(message.Text);
-            await Bot.SendTextMessageAsync(message.Chat.Id, answer);
+            await TelegramClient.SendChatActionAsync(message.Chat.Id, ChatAction.Typing);
+            var answer = Bot.HandleCommand(message.Text);
+            await TelegramClient.SendTextMessageAsync(message.Chat.Id, answer);
 
             //            Console.WriteLine(messageEventArgs.Message.Text);
             //            var message = messageEventArgs.Message;
@@ -212,14 +189,14 @@ namespace CookBot.App
                 }
             };
 
-            await Bot.AnswerInlineQueryAsync(inlineQueryEventArgs.InlineQuery.Id, results, isPersonal: true, cacheTime: 0);
+            await TelegramClient.AnswerInlineQueryAsync(inlineQueryEventArgs.InlineQuery.Id, results, isPersonal: true, cacheTime: 0);
         }
 
 
         private static async void BotOnCallbackQueryReceived(object sender, CallbackQueryEventArgs callbackQueryEventArgs)
         {
             Console.WriteLine("BotOnCallbackQueryReceived");
-            await Bot.AnswerCallbackQueryAsync(callbackQueryEventArgs.CallbackQuery.Id,
+            await TelegramClient.AnswerCallbackQueryAsync(callbackQueryEventArgs.CallbackQuery.Id,
                 $"Received {callbackQueryEventArgs.CallbackQuery.Data}");
         }
     }
