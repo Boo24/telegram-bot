@@ -2,7 +2,7 @@
 using System.Runtime.Serialization;
 using System.Runtime.Serialization.Formatters.Binary;
 
-namespace CookBot.Infrastructure.Serialization
+namespace source.Infrastructure.Serialization
 {
     public class BinarySerializer : ISerializer
     {

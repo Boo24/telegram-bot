@@ -84,7 +84,7 @@
     <Compile Include="App\CookBot.cs" />
     <Compile Include="App\IBot.cs" />
     <Compile Include="App\Commands\IBotCommand.cs" />
-    <Compile Include="App\TelegramBot.cs" />
+    <Compile Include="App\TelegramHandler.cs" />
     <Compile Include="Domain\PrintableViewMaker.cs" />
     <Compile Include="Infrastructure\Databases\IDatabase.cs" />
     <Compile Include="Domain\Model\IIngredient.cs" />
@@ -94,7 +94,7 @@
     <Compile Include="Domain\Model\Recipe.cs" />
     <Compile Include="Infrastructure\Databases\ArrayDatabase.cs" />
     <Compile Include="Infrastructure\Serialization\ISerializer.cs" />
-    <Compile Include="Infrastructure\Serialization\Serializer.cs" />
+    <Compile Include="Infrastructure\Serialization\BinarySerializer.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using CookBot.Domain.Model;
-using CookBot.Infrastructure.Databases;
+using source.Domain.Model;
+using source.Infrastructure.Databases;
 using source.App.Commands;
 
 namespace source.App

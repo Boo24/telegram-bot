@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using CookBot.Infrastructure.Serialization;
+using source.Infrastructure.Serialization;
 
-namespace CookBot.Infrastructure.Databases
+namespace source.Infrastructure.Databases
 {
     public class ArrayDatabase<T> : IDatabase<T>
     {

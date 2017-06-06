@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Diagnostics;
 using System.Threading.Tasks;
-using CookBot.Domain.Model;
+using source.Domain.Model;
 using Telegram.Bot;
 using Telegram.Bot.Args;
 using Telegram.Bot.Types;
@@ -10,14 +10,15 @@ using Telegram.Bot.Types.Enums;
 using Telegram.Bot.Types.InlineQueryResults;
 using Telegram.Bot.Types.InputMessageContents;
 using Telegram.Bot.Types.ReplyMarkups;
-using CookBot.Infrastructure.Databases;
-using CookBot.Infrastructure.Serialization;
+using source.Infrastructure.Databases;
+using source.Infrastructure.Serialization;
 using source.App.Commands;
 using Ninject;
 using source.App;
-using CookBot.Infrastructure;
+using source.Infrastructure;
+using System.IO;
 
-namespace CookBot
+namespace source
 {
     class Program
     {
@@ -27,7 +28,8 @@ namespace CookBot
         {
             var container = new StandardKernel();
 
-            container.Bind<IBot>().To<TelegramCookBot>().OnActivation(b => b.Run());
+            container.Bind<IBot>().To<CookBot>();
+            container.Bind<TelegramHandler>().ToSelf();
 
             container.Bind<IDatabase<Recipe>>().
                 ToConstant(new ArrayDatabase<Recipe>(@"..\..\..\databases\ArrayDatabase.bin", new BinarySerializer()));
@@ -40,6 +42,8 @@ namespace CookBot
             //container.Bind<IBotCommand>().To<HelpCommand>(); 
 
             var bot = container.Get<IBot>();
+            var telegramHandler = container.Get<TelegramHandler>();
+            telegramHandler.Run();
         }
         
     }

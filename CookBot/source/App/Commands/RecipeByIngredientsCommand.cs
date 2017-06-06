@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using CookBot.Infrastructure.Databases;
-using CookBot.Domain.Model;
+using source.Infrastructure.Databases;
+using source.Domain.Model;
 
 namespace source.App.Commands
 {

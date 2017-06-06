@@ -1,6 +1,6 @@
-﻿using CookBot.Domain.Model;
+﻿using source.Domain.Model;
 
-namespace CookBot.Domain
+namespace source.Domain
 {
     public static class PrintableViewMaker
     {
