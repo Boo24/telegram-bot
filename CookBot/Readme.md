@@ -1,3 +1,4 @@
+Пример из кода::::
 ```
         public string Execute(IDatabase<Recipe> db, params string[] arguments)
         {
