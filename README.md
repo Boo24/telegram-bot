@@ -26,8 +26,12 @@
 ## Точки расширения
 1. Команды.
 
-    Для того, чтобы создать новую команду достаточно реализовать интерфейс [IBotCommand](CookBot/source/App/Commands/IBotCommand.cs). У команды должно быть имя(свойство Name), описание(свойство Description), а также метод Execute, в который передается ссылка на базу данных и аргументы команды. Примеры реализации можно посмотреть в [этой папке](/CookBot/source/App/Commands) .
+    Для того, чтобы создать новую команду достаточно реализовать интерфейс [IBotCommand](CookBot/source/App/Commands/IBotCommand.cs). У команды должно быть имя(свойство *Name*), описание(свойство *Description*), а также метод *Execute*, в который передается ссылка на базу данных и аргументы команды. Примеры реализации можно посмотреть в [этой папке](/CookBot/source/App/Commands) .
     
 2. База данных.
 
-    Для того, чтобы добавить новую базу данных, нужно реализовать дженерик интерфейс [IDatabase](/CookBot/source/Infrastructure/Databases/IDatabase.cs). Этот интерфейс декларирует два метода GetAllSuitable, GetAnySuitable, в которые передается лямбда-выражение, которому должен удовлетворять искомый объект.
+    Для того, чтобы добавить новую базу данных, нужно реализовать дженерик интерфейс [IDatabase](/CookBot/source/Infrastructure/Databases/IDatabase.cs). Этот интерфейс декларирует два метода *GetAllSuitable*, *GetAnySuitable*, в которые передается лямбда-выражение, которому должен удовлетворять искомый объект.
+
+3. Интерфейс [IBot](/CookBot/source/App/IBot.cs)
+
+  Для реализации этого интерфейса необходимо реализовать метод *HandleCommand*, который возвращает ответ на полученное сообщение. Благодаря этому интерфейсу при работе с TelgramAPI(или другим API), мы можем не привязываться к конкретному боту. В нашем проекте есть две реализации этого интерфейса [CookBot](/CookBot/source/App/CookBot.cs) и [HelloBot](/CookBot/source/App/HelloBot.cs). Так же есть класс [TelegramHandler](/CookBot/source/App/TelegramHandler.cs), который работает с TelegramAPI и ему в конструктор передается реализация интерфейса [IBot](/CookBot/source/App/IBot.cs). Тем самым, создав нового бота, мы можем просто передать его в конструктор [TelegramHandler](/CookBot/source/App/TelegramHandler.cs) и не думать снова о том, как работать с TelegramAPI.
