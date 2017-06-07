@@ -8,8 +8,8 @@ namespace source.Infrastructure.Databases
 {
     public class ArrayDatabase<T> : IDatabase<T>
     {
-        public T[] Data { get; set; }
-        public ISerializer Serializer { get; }
+        private T[] Data { get; }
+        private ISerializer Serializer { get; }
 
         public ArrayDatabase(string fileName, ISerializer serializer)
         {

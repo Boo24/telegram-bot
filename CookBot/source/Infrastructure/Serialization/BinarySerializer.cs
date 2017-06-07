@@ -6,7 +6,7 @@ namespace source.Infrastructure.Serialization
 {
     public class BinarySerializer : ISerializer
     {
-        IFormatter formatter = new BinaryFormatter();
+        private IFormatter formatter = new BinaryFormatter();
 
         public void Serialize<T>(T obj, Stream stream) =>
             formatter.Serialize(stream, obj);

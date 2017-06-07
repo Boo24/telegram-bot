@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using source.Domain.Model;
 using source.Infrastructure.Databases;
@@ -9,27 +10,28 @@ namespace source.App
     class CookBot : IBot
     {
         public IDatabase<Recipe> Database { get; }
-        public List<IBotCommand> Commands { get; }
+        public List<IBotCommand> BotCommands { get; }
 
-        public CookBot(IDatabase<Recipe> database, List<IBotCommand> commands)
+        public CookBot(IDatabase<Recipe> database, List<IBotCommand> botCommands)
         {
             Database = database;
-            Commands = commands;
+            BotCommands = botCommands;
         }
 
         public string HandleCommand(string message)
         {
             var query = message.Split(' ');
-            foreach (var command in Commands)
+            foreach (var command in BotCommands)
             {
-                if (command.Name == query[0])
-                {
-                    var result = command.Execute(Database, query.Skip(1).ToArray());
-                    if (result != null)
-                        return result;
-                }
+                if (command.Name != query[0]) continue;
+                var result = command.Execute(Database, query.Skip(1).ToArray());
+                if (result != null)
+                    return result;
             }
-            return HandleCommand("/help");
+            var help = GetHelpCommand();
+            return help != null ? help.Execute(Database) : "Неизвестная команда!";
         }
+        private IBotCommand GetHelpCommand()
+            => BotCommands.Find(x => x is HelpCommand);
     }
 }
