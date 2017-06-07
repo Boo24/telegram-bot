@@ -15,11 +15,11 @@ namespace source.App.Commands
             var recipeName = string.Join(" ", arguments);
             try
             {
-                return db.GetAnySuitable(x => x.Name == recipeName).GetPrintableView();
+                return db.GetAnySuitable(x => string.Equals(x.Name, recipeName, StringComparison.CurrentCultureIgnoreCase)).GetPrintableView();
             }
             catch (InvalidOperationException)
             {
-                return null;
+                return "Подходящий рецепт не найден :(";
             }
         }
     }

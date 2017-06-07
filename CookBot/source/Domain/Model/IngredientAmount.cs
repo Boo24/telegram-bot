@@ -5,8 +5,8 @@ namespace source.Domain.Model
     [Serializable]
     public class IngredientAmount : IIngredientAmount
     {
-        public string MeasureUnit { get; private set; }
-        public double Count { get; private set; }
+        public string MeasureUnit { get; }
+        public double Count { get; }
 
         public IngredientAmount(double count, string measureUnit)
         {

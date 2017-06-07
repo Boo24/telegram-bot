@@ -11,19 +11,17 @@ namespace source.App.Commands
     class HelpCommand : IBotCommand
     {
         public string Name => "/help";
-        public string Description => "отобразить это сообщение";
+        public string Description => "информация о поддерживаемых командах";
+        private readonly Lazy<List<IBotCommand>> commands;
 
-        private readonly List<IBotCommand> commands;
-
-        public HelpCommand(List<IBotCommand> commands)
+        public HelpCommand(Lazy<List<IBotCommand>> commands)
         {
             this.commands = commands;
         }
-
         public string Execute(IDatabase<Recipe> db, params string[] arguments)
         {
             var result = "Привет! Меня зовут Cook Bot :D. У меня самые лучшие рецепты. Вот список команд, которые я могу выполнить: \n";
-            result += string.Join("\n", commands.Select(command => $"{command.Name} - {command.Description}."));
+            result += string.Join("\n", commands.Value.Select(command => $"{command.Name} - {command.Description}."));
             return result;
         }
     }

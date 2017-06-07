@@ -18,7 +18,7 @@ namespace source.App.Commands
         {
             var recipesNames = db.GetAllSuitable(_ => true).Select(recipe => recipe.Name).ToArray();
             var result = new StringBuilder();
-            for (int i = 0; i < recipesNames.Length; i++)
+            for (var i = 0; i < recipesNames.Length; i++)
             {
                 result.Append((i + 1) + ". " + recipesNames[i] + "\n");
             }
