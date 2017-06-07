@@ -1,5 +1,5 @@
 Пример из кода::::
-```
+```C#
         public string Execute(IDatabase<Recipe> db, params string[] arguments)
         {
             var result = "Привет! Меня зовут Cook Bot :D. У меня самые лучшие рецепты. Вот список команд, которые я могу выполнить: \n";
