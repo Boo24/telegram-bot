@@ -41,15 +41,15 @@
 
 1. [Инфраструктура](/CookBot/source/Infrastructure)
   Содержит всю работу с базами данных. Не взаимодействует с двумя остальными слоями.
-Пример использования базы данных в слое приложения:
+Пример использования базы данных в слое приложения [при выполнении команды](/CookBot/source/App/Commands/RecipeByNameCommand.cs):
 ```
       try
-            {
-                return db.GetAnySuitable(x => string.Equals(x.Name, recipeName,         StringComparison.CurrentCultureIgnoreCase)).GetPrintableView();
-            }
-       catch (InvalidOperationException)
-            {
-                return "Подходящий рецепт не найден :(";
-            }
+      {
+          return db.GetAnySuitable(x => string.Equals(x.Name, recipeName,       StringComparison.CurrentCultureIgnoreCase)).GetPrintableView();
+      }
+      catch (InvalidOperationException)
+      {
+          return "Подходящий рецепт не найден :(";
+      }
     
 ```
