@@ -42,7 +42,8 @@
 ```C#
       try
       {
-          return db.GetAnySuitable(x => string.Equals(x.Name, recipeName,       StringComparison.CurrentCultureIgnoreCase)).GetPrintableView();
+          return db.GetAnySuitable(x => string.Equals(x.Name, recipeName,
+                      StringComparison.CurrentCultureIgnoreCase)).GetPrintableView();
       }
       catch (InvalidOperationException)
       {
