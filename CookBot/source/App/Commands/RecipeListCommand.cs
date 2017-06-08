@@ -10,7 +10,7 @@ namespace source.App.Commands
 {
     public class RecipeListCommand : IBotCommand
     {
-        public string Name => "/recipeList";
+        public string Name => "/all";
 
         public string Description => "отобразить список всех рецептов";
 

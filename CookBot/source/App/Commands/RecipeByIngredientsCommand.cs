@@ -13,7 +13,7 @@ namespace source.App.Commands
     {
         public string Description => "получить список рецептов, в которых содержится указанный ингридиент";
 
-        public string Name => "/recipeIngr";
+        public string Name => "/ingr";
 
         public string Execute(IDatabase<Recipe> db, params string[] arguments)
         {

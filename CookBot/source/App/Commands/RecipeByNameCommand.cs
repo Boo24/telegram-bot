@@ -7,7 +7,7 @@ namespace source.App.Commands
 {
     public class RecipeByNameCommand : IBotCommand
     {
-        public string Name => "/recipeName";
+        public string Name => "/recipe";
         public string Description => "найти рецепт по названию";
 
         public string Execute(IDatabase<Recipe> db, params string[] arguments)
