@@ -53,3 +53,27 @@
       }
     
 ```
+2. [Предметный слой](/CookBot/source/Domain)
+  В нем описана модель рецепта.
+Главный класс - [класс рецепта](/CookBot/source/Domain/Model/Recipe.cs)
+Он использует несколько вспомогательных классов, например, класс, отвечающий за количество и единицу измерения ингредиента и сам ингредиент. Все они расположены [тут](/CookBot/source/Domain/Model)
+
+3. [Слой приложения] (/CookBot/source/App)
+  Содержит непосредственно работу с Telegram API и команды бота. Не используется двумя предыдущими слоями, но использует их. Демонстрация работы с БД была выше. Работа с предметным слоем происходит при обработке команд (Получили рецепт и попросили у него отдаваемый пользователю вид):
+```
+ public string Execute(IDatabase<Recipe> db, params string[] arguments)
+        {
+            var suitableRecipes = db.GetAllSuitable(x => arguments
+                        .All(z => x.Components.Keys.Select(y => y.Name.ToLower()).Contains(z.ToLower())));
+
+            if (!suitableRecipes.Any())
+                return "Нет подходящих рецептов :(";
+
+            return String.Join("\n", suitableRecipes.Select(res => res.GetPrintableView()));
+        }
+```
+Один из наиболее важных классов слоя приложения - класс [TelegramHandler.cs](/CookBot/source/App/TelegramHandler.cs)
+Содержит всю работу с Телеграм АПИ и использует интерфейс [IBot](/CookBot/source/App/IBot.cs)
+
+
+
