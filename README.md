@@ -75,5 +75,26 @@
 Один из наиболее важных классов слоя приложения - класс [TelegramHandler.cs](/CookBot/source/App/TelegramHandler.cs)
 Содержит всю работу с Телеграм АПИ и использует интерфейс [IBot](/CookBot/source/App/IBot.cs)
 
+### Использование DI-контейнера.
+Для создания DI-контейнера была выбрала библиотека Ninject. Итоговая сборка осуществляется в классе [Program.cs](/CookBot/source/Program.cs)
+Наиболее неочевидные моменты:
+1. Циклическая зависимость. Команда хелп должна знать обо всех зарегистрированных командах.
+```
+      container.Bind<Lazy<List<IBotCommand>>>().ToConstant(new Lazy<List<IBotCommand>>(() => container
+                                                                           .GetAll<IBotCommand>()
+                                                                           .ToList()))
+```
+Для этого нам приходится воспользоваться классом Lazy<T> в классе [команды Help](/CookBot/source/App/Commands/HelpCommand.cs):
 
+```
+  private readonly Lazy<List<IBotCommand>> commands;
+```
+
+2.
+```
+            container.Bind<IBotCommand>().To<RecipeByNameCommand>().InSingletonScope();
+            container.Bind<IBotCommand>().To<RecipeByIngredientsCommand>().InSingletonScope();
+            container.Bind<IBotCommand>().To<RecipeListCommand>().InSingletonScope();
+```
+Данные класс сделаны сигнлтонами для того, чтобы не создавалось несколько их экземпляров (при создании команды [Help](/CookBot/source/App/Commands/HelpCommand.cs) ей необходимы и другие зарегистрированные команды, экземпляры которых DI-контейнер создаст еще раз)
 
