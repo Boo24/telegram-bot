@@ -15,7 +15,7 @@ namespace source.App.Commands
         BadArguments
     }
 
-    interface IBotCommand
+    public interface IBotCommand
     {
         string Name { get; }
         string Description { get; }

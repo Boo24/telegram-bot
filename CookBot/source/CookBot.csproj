@@ -55,6 +55,10 @@
     <Reference Include="Ninject, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
       <HintPath>..\packages\Ninject.3.2.2.0\lib\net45-full\Ninject.dll</HintPath>
     </Reference>
+    <Reference Include="Ninject.Extensions.Conventions, Version=3.2.0.0, Culture=neutral, PublicKeyToken=c7192dc5380945e7, processorArchitecture=MSIL">
+      <HintPath>..\packages\Ninject.Extensions.Conventions.3.2.1-unstable-005\lib\net45-full\Ninject.Extensions.Conventions.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Collections.Immutable, Version=1.2.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Collections.Immutable.1.3.1\lib\portable-net45+win8+wp8+wpa81\System.Collections.Immutable.dll</HintPath>
@@ -89,7 +93,6 @@
     <Compile Include="App\IBot.cs" />
     <Compile Include="App\Commands\IBotCommand.cs" />
     <Compile Include="App\TelegramHandler.cs" />
-    <Compile Include="Domain\PrintableViewMaker.cs" />
     <Compile Include="Infrastructure\Databases\IDatabase.cs" />
     <Compile Include="Domain\Model\IIngredient.cs" />
     <Compile Include="Domain\Model\IIngredientAmount.cs" />

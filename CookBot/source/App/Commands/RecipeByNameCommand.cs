@@ -5,7 +5,7 @@ using source.Infrastructure.Databases;
 
 namespace source.App.Commands
 {
-    class RecipeByNameCommand : IBotCommand
+    public class RecipeByNameCommand : IBotCommand
     {
         public string Name => "/recipeName";
         public string Description => "найти рецепт по названию";

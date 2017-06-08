@@ -8,7 +8,7 @@ using source.Infrastructure.Databases;
 
 namespace source.App.Commands
 {
-    class RecipeListCommand : IBotCommand
+    public class RecipeListCommand : IBotCommand
     {
         public string Name => "/recipeList";
 

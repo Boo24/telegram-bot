@@ -9,7 +9,7 @@ using source.Domain.Model;
 
 namespace source.App.Commands
 {
-    class RecipeByIngredientsCommand : IBotCommand
+    public class RecipeByIngredientsCommand : IBotCommand
     {
         public string Description => "получить список рецептов, в которых содержится указанный ингридиент";
 
