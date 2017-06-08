@@ -84,13 +84,13 @@
                                                                            .GetAll<IBotCommand>()
                                                                            .ToList()))
 ```
-Для этого нам приходится воспользоваться классом Lazy<T> в классе [команды Help](/CookBot/source/App/Commands/HelpCommand.cs):
+Для этого нам приходится воспользоваться классом ```Lazy<T>``` в классе [команды Help](/CookBot/source/App/Commands/HelpCommand.cs):
 
 ```
   private readonly Lazy<List<IBotCommand>> commands;
 ```
 
-2.
+2. Cигнлтоны
 ```
             container.Bind<IBotCommand>().To<RecipeByNameCommand>().InSingletonScope();
             container.Bind<IBotCommand>().To<RecipeByIngredientsCommand>().InSingletonScope();
