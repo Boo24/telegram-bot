@@ -35,3 +35,21 @@
 3. Интерфейс [IBot](/CookBot/source/App/IBot.cs)
 
     Для реализации этого интерфейса необходимо реализовать метод *HandleCommand*, который возвращает ответ на полученное сообщение. Благодаря этому интерфейсу при работе с TelgramAPI(или другим API), мы можем не привязываться к конкретному боту. В нашем проекте есть две реализации этого интерфейса [CookBot](/CookBot/source/App/CookBot.cs) и [HelloBot](/CookBot/source/App/HelloBot.cs). Так же есть класс [TelegramHandler](/CookBot/source/App/TelegramHandler.cs), который работает с TelegramAPI и ему в конструктор передается реализация интерфейса [IBot](/CookBot/source/App/IBot.cs). Тем самым, создав нового бота, мы можем просто передать его в конструктор [TelegramHandler](/CookBot/source/App/TelegramHandler.cs) и не думать снова о том, как работать с TelegramAPI.
+
+## Общая структура приложения:
+Имеем три слоя:
+
+1. [Инфраструктура](/CookBot/source/Infrastructure)
+  Содержит всю работу с базами данных. Не взаимодействует с двумя остальными слоями.
+Пример использования базы данных в слое приложения:
+```
+      try
+            {
+                return db.GetAnySuitable(x => string.Equals(x.Name, recipeName,         StringComparison.CurrentCultureIgnoreCase)).GetPrintableView();
+            }
+       catch (InvalidOperationException)
+            {
+                return "Подходящий рецепт не найден :(";
+            }
+    
+```
