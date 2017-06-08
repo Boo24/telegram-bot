@@ -7,7 +7,7 @@ using source.App.Commands;
 
 namespace source.App
 {
-    class CookBot : IBot
+    public class CookBot : IBot
     {
         public IDatabase<Recipe> Database { get; }
         public List<IBotCommand> BotCommands { get; }
