@@ -31,7 +31,7 @@ namespace Tests
         [Test]
         public void should_find_and_execute_command()
         {
-            var expectedResult = "commandResult";
+            var expectedResult = BotCommandResult.Good;
 
             A.CallTo(() => fakeCommand.Execute(A<IDatabase<Recipe>>.Ignored, 
                 new string[] {})).Returns(expectedResult);
@@ -44,10 +44,12 @@ namespace Tests
         [Test]
         public void should_not_find_and_execute_command()
         {
+            var expectedResult = BotCommandResult.Bad;
             A.CallTo(() => fakeCommand.Execute(A<IDatabase<Recipe>>.Ignored,
-                new string[] { })).MustNotHaveHappened();
+                new string[] { })).Returns(expectedResult);
+            var commandResult = cookBot.HandleCommand("Non-existent command");
+            Assert.AreEqual(commandResult, expectedResult);
 
-            cookBot.HandleCommand("Non-existent command");
         }
     }
 }

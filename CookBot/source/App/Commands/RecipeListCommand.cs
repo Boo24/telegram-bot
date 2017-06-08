@@ -11,10 +11,10 @@ namespace source.App.Commands
     public class RecipeListCommand : IBotCommand
     {
         public string Name => "/all";
-
         public string Description => "отобразить список всех рецептов";
+        public string Result { get; private set; }
 
-        public string Execute(IDatabase<Recipe> db, params string[] arguments)
+        public BotCommandResult Execute(IDatabase<Recipe> db, string[] arguments)
         {
             var recipesNames = db.GetAllSuitable(_ => true).Select(recipe => recipe.Name).ToArray();
             var result = new StringBuilder();
@@ -22,7 +22,8 @@ namespace source.App.Commands
             {
                 result.Append((i + 1) + ". " + recipesNames[i] + "\n");
             }
-            return result.ToString();
+            Result = result.ToString();
+            return BotCommandResult.Good;
         }
     }
 }

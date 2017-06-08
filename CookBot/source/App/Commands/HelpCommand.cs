@@ -22,11 +22,20 @@ namespace source.App.Commands
             helloMessage = helloMess;
             this.commands = commands;
         }
-        public string Execute(IDatabase<Recipe> db, params string[] arguments)
+
+        public string Result
         {
-            var result = helloMessage + "\n";
-            result += string.Join("\n", commands.Value.Select(command => $"{command.Name} - {command.Description}."));
-            return result;
+            get
+            {
+                var result = helloMessage + "\n";
+                result += string.Join("\n", commands.Value.Select(command => $"{command.Name} - {command.Description}."));
+                return result;
+            }
+        }
+
+        public BotCommandResult Execute(IDatabase<Recipe> db, string[] arguments)
+        {
+            return BotCommandResult.Good;
         }
     }
 }

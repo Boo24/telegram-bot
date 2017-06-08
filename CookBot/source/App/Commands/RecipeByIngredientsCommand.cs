@@ -12,18 +12,19 @@ namespace source.App.Commands
     public class RecipeByIngredientsCommand : IBotCommand
     {
         public string Description => "получить список рецептов, в которых содержится указанный ингридиент";
-
         public string Name => "/ingr";
+        public string Result { get; private set; }
 
-        public string Execute(IDatabase<Recipe> db, params string[] arguments)
+        public BotCommandResult Execute(IDatabase<Recipe> db, string[] arguments)
         {
             var suitableRecipes = db.GetAllSuitable(x => arguments
                         .All(z => x.Components.Keys.Select(y => y.Name.ToLower()).Contains(z.ToLower())));
 
             if (!suitableRecipes.Any())
-                return "Нет подходящих рецептов :(";
+                return BotCommandResult.Bad;
 
-            return String.Join("\n", suitableRecipes.Select(res => res.GetPrintableView()));
+            Result = string.Join("\n", suitableRecipes.Select(res => res.GetPrintableView()));
+            return BotCommandResult.Good;
         }
     }
 }

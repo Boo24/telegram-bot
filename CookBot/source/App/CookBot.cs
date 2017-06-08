@@ -25,11 +25,13 @@ namespace source.App
             {
                 if (command.Name != query[0]) continue;
                 var result = command.Execute(Database, query.Skip(1).ToArray());
-                if (result != null)
-                    return result;
+                if (result == BotCommandResult.Bad)
+                    return "Нет подходящих рецептов :(";
+                return command.Result;
+
             }
             var help = GetHelpCommand();
-            return help != null ? help.Execute(Database) : "Неизвестная команда!";
+            return help != null ? help.Result : "Неизвестная команда!";
         }
         private IBotCommand GetHelpCommand()
             => BotCommands.Find(x => x is HelpCommand);
