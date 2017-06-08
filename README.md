@@ -82,8 +82,7 @@
                                                                            .ToList()))
 ```
 Для этого нам приходится воспользоваться классом ```Lazy<T>``` в классе [команды Help](/CookBot/source/App/Commands/HelpCommand.cs):
-C#
-```
+```C#
   private readonly Lazy<List<IBotCommand>> commands;
 ```
 
