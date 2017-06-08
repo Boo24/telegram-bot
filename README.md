@@ -39,7 +39,7 @@
 1. [Инфраструктура](/CookBot/source/Infrastructure)
   Содержит всю работу с базами данных. Не взаимодействует с двумя остальными слоями.
 Пример использования базы данных в слое приложения [при выполнении команды](/CookBot/source/App/Commands/RecipeByNameCommand.cs):
-```
+```C#
       try
       {
           return db.GetAnySuitable(x => string.Equals(x.Name, recipeName,       StringComparison.CurrentCultureIgnoreCase)).GetPrintableView();
@@ -57,7 +57,7 @@
 
 3. [Слой приложения] (/CookBot/source/App)
   Содержит непосредственно работу с Telegram API и команды бота. Не используется двумя предыдущими слоями, но использует их. Демонстрация работы с БД была выше. Работа с предметным слоем происходит при обработке команд (Получили рецепт и попросили у него отдаваемый пользователю вид):
-```
+```C#
  public string Execute(IDatabase<Recipe> db, params string[] arguments)
         {
             var suitableRecipes = db.GetAllSuitable(x => arguments
@@ -76,19 +76,19 @@
 Для создания DI-контейнера была выбрала библиотека Ninject. Итоговая сборка осуществляется в классе [Program.cs](/CookBot/source/Program.cs)
 Наиболее неочевидные моменты:
 1. Циклическая зависимость. Команда хелп должна знать обо всех зарегистрированных командах.
-```
+```C#
       container.Bind<Lazy<List<IBotCommand>>>().ToConstant(new Lazy<List<IBotCommand>>(() => container
                                                                            .GetAll<IBotCommand>()
                                                                            .ToList()))
 ```
 Для этого нам приходится воспользоваться классом ```Lazy<T>``` в классе [команды Help](/CookBot/source/App/Commands/HelpCommand.cs):
-
+C#
 ```
   private readonly Lazy<List<IBotCommand>> commands;
 ```
 
 2. Cигнлтоны
-```
+```C#
             container.Bind<IBotCommand>().To<RecipeByNameCommand>().InSingletonScope();
             container.Bind<IBotCommand>().To<RecipeByIngredientsCommand>().InSingletonScope();
             container.Bind<IBotCommand>().To<RecipeListCommand>().InSingletonScope();
