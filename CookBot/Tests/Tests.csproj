@@ -51,7 +51,7 @@
   <ItemGroup>
     <Compile Include="ArrayDatabaseTests.cs" />
     <Compile Include="CommandsTests.cs" />
-    <Compile Include="CookBotTests.cs" />
+    <Compile Include="BotTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

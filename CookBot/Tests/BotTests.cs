@@ -9,7 +9,7 @@ using source.Domain.Model;
 namespace Tests
 {
     [TestFixture]
-    class CookBotTests
+    class BotTests
     {
         IBotCommand fakeCommand;
         string fakeCommandName = "/fakeCommand";

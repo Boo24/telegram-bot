@@ -32,7 +32,7 @@ namespace Tests
             database = new EasyDatabase(fakeRecipes);
         }
 
-        public IRecipe CreateFakeRecipe(string name, string ingrName, 
+        public IRecipe CreateFakeRecipe(string name, string ingrName,
             double ingrCount, string ingrMeasureUnit)
         {
             var fakeRecipe = A.Fake<IRecipe>();
