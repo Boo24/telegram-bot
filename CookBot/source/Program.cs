@@ -32,8 +32,8 @@ namespace source
             container.Bind<IBot>().To<CookBot>();
             container.Bind<TelegramHandler>().ToSelf();
 
-            container.Bind<IDatabase<Recipe>>().
-                ToConstant(new ArrayDatabase<Recipe>(databaseStream, new BinarySerializer()));
+            container.Bind<IDatabase<IRecipe>>().
+                ToConstant(new ArrayDatabase<IRecipe>(databaseStream, new BinarySerializer()));
 
             container.Bind<Lazy<List<IBotCommand>>>().
                 ToConstant(new Lazy<List<IBotCommand>>(() => container.GetAll<IBotCommand>().ToList()));

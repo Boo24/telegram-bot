@@ -10,19 +10,25 @@ namespace source.App.Commands
         public string Name => "/recipe";
         public string Description => "найти рецепт по названию";
 
-        public string Execute(IDatabase<Recipe> db, string[] arguments)
+        private IDatabase<IRecipe> Database { get; }
+
+        public RecipeByNameCommand(IDatabase<IRecipe> database)
+        {
+            Database = database;
+        }
+        public BotCommandResult Execute(string[] arguments)
         {
             var recipeName = string.Join(" ", arguments);
             try
             {
-                var result = db
+                var result = Database
                     .GetAnySuitable(x => string.Equals(x.Name, recipeName, StringComparison.CurrentCultureIgnoreCase))
                     .GetPrintableView();
-                return result;
+                return new BotCommandResult(BotCode.Good, result);
             }
             catch (InvalidOperationException)
             {
-                return "Нет подходящего рецепта";
+                return new BotCommandResult(BotCode.Bad, "К сожалению, ничего подходящего не найдено :(");
             }
         }
     }

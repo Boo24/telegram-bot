@@ -7,7 +7,7 @@ using System.Runtime.Serialization;
 namespace source.Domain.Model
 {
     [Serializable]
-    public class Recipe
+    public class Recipe : IRecipe
     {
         public int Id { get; private set; }
         public string Name { get; }
@@ -22,6 +22,13 @@ namespace source.Domain.Model
         public Recipe()
         {
             components = new Dictionary<IIngredient, IIngredientAmount>();
+        }
+
+        public Recipe(string name, string description, Dictionary<IIngredient, IIngredientAmount> components)
+        {
+            Name = name;
+            Description = description;
+            this.components = components;
         }
 
         public string GetPrintableView()

@@ -93,6 +93,8 @@
     <Compile Include="App\IBot.cs" />
     <Compile Include="App\Commands\IBotCommand.cs" />
     <Compile Include="App\TelegramHandler.cs" />
+    <Compile Include="App\Commands\BotCommandResult.cs" />
+    <Compile Include="Domain\Model\IRecipe.cs" />
     <Compile Include="Infrastructure\Databases\IDatabase.cs" />
     <Compile Include="Domain\Model\IIngredient.cs" />
     <Compile Include="Domain\Model\IIngredientAmount.cs" />

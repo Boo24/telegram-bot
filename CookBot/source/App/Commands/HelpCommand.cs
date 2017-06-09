@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Ninject;
-using source.Domain.Model;
-using source.Infrastructure.Databases;
 
 namespace source.App.Commands
 {
@@ -20,11 +18,11 @@ namespace source.App.Commands
             this.commands = commands;
         }
 
-        public string Execute(IDatabase<Recipe> db, string[] arguments)
+        public BotCommandResult Execute(string[] arguments)
         {
             var result = helloMessage + "\n";
             result += string.Join("\n", commands.Value.Select(command => $"{command.Name} - {command.Description}."));
-            return result;
+            return new BotCommandResult(BotCode.Good, result);
         }
     }
 }

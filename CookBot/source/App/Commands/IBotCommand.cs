@@ -12,6 +12,6 @@ namespace source.App.Commands
     {
         string Name { get; }
         string Description { get; }
-        string Execute(IDatabase<Recipe> db, string[] arguments);
+        BotCommandResult Execute(string[] arguments);
     }
 }

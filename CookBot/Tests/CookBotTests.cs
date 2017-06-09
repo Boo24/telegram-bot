@@ -32,10 +32,9 @@ namespace Tests
         [Test]
         public void should_find_and_execute_command()
         {
-            var expectedResult = "expectedResult";
+            var expectedResult = new BotCommandResult(BotCode.Good, "expectedResult");
 
-            A.CallTo(() => fakeCommand.Execute(A<IDatabase<Recipe>>.Ignored, 
-                A<string[]>.Ignored)).Returns(expectedResult);
+            A.CallTo(() => fakeCommand.Execute(A<string[]>.Ignored)).Returns(expectedResult);
 
             var commandResult = cookBot.HandleCommand(fakeCommandName);
             Assert.AreEqual(commandResult, "expectedResult");
@@ -45,16 +44,15 @@ namespace Tests
         public void should_not_find_and_execute_command()
         {
             cookBot.HandleCommand("Non-existent command");
-            A.CallTo(() => fakeCommand.Execute(A<IDatabase<Recipe>>.Ignored,
-                A<string[]>.Ignored)).MustNotHaveHappened();
+            A.CallTo(() => fakeCommand.Execute(A<string[]>.Ignored)).MustNotHaveHappened();
         }
 
         [Test]
         public void should_parse_arguments()
         {
             cookBot.HandleCommand("/fakeCommand arg1 arg2");
-            A.CallTo(() => fakeCommand.Execute(A<IDatabase<Recipe>>.Ignored, A<string[]>.Ignored))
-                .WhenArgumentsMatch((IDatabase<Recipe> db, string[] str) => str[0] == "arg1" && str[1] == "arg2")
+            A.CallTo(() => fakeCommand.Execute(A<string[]>.Ignored))
+                .WhenArgumentsMatch((string[] str) => str[0] == "arg1" && str[1] == "arg2")
                 .MustHaveHappened();
         }
     }

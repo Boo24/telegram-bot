@@ -9,15 +9,24 @@ namespace source.App.Commands
         public string Description => "получить список рецептов, в которых содержится указанный ингридиент";
         public string Name => "/ingr";
 
-        public string Execute(IDatabase<Recipe> db, string[] arguments)
+        private IDatabase<IRecipe> Database { get; }
+
+        public RecipeByIngredientsCommand(IDatabase<IRecipe> database)
         {
-            var suitableRecipes = db.GetAllSuitable(x => arguments
+            Database = database;
+        }
+
+        public BotCommandResult Execute(string[] arguments)
+        {
+            var suitableRecipes = Database.GetAllSuitable(x => arguments
                         .All(z => x.Components.Keys.Select(y => y.Name.ToLower()).Contains(z.ToLower())));
 
             if (!suitableRecipes.Any())
-                return "Нет подходящего рецепты";
+                return new BotCommandResult(BotCode.Bad, "К сожалению, ничего подходящего не найдено: (");
 
-            return string.Join("\n", suitableRecipes.Select(res => res.GetPrintableView()));
+            return new BotCommandResult(
+                BotCode.Good,
+                string.Join("\n", suitableRecipes.Select(res => res.GetPrintableView())));
         }
     }
 }

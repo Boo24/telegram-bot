@@ -12,16 +12,22 @@ namespace source.App.Commands
     {
         public string Name => "/all";
         public string Description => "отобразить список всех рецептов";
+        IDatabase<IRecipe> Database { get; }
 
-        public string Execute(IDatabase<Recipe> db, string[] arguments)
+        public RecipeListCommand(IDatabase<IRecipe> database)
         {
-            var recipesNames = db.GetAllSuitable(_ => true).Select(recipe => recipe.Name).ToArray();
+            Database = database;
+        }
+
+        public BotCommandResult Execute(string[] arguments)
+        {
+            var recipesNames = Database.GetAllSuitable(_ => true).Select(recipe => recipe.Name).ToArray();
             var result = new StringBuilder();
             for (var i = 0; i < recipesNames.Length; i++)
             {
                 result.Append((i + 1) + ". " + recipesNames[i] + "\n");
             }
-            return result.ToString();
+            return new BotCommandResult(BotCode.Good, result.ToString());
         }
     }
 }
