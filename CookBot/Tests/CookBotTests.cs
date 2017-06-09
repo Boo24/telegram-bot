@@ -14,7 +14,7 @@ namespace Tests
         IBotCommand fakeCommand;
         string fakeCommandName = "/fakeCommand";
         List<IBotCommand> commandsList;
-        IDatabase<Recipe> database;
+        IDatabase<IRecipe> database;
         CookBot cookBot;
 
         [SetUp]
@@ -25,7 +25,7 @@ namespace Tests
             commandsList.Add(fakeCommand);
 
             A.CallTo(() => fakeCommand.Name).Returns(fakeCommandName);
-            database = A.Fake<IDatabase<Recipe>>();
+            database = A.Fake<IDatabase<IRecipe>>();
             cookBot = new CookBot(commandsList);
         }
 

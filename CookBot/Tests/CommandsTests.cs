@@ -25,7 +25,7 @@ namespace Tests
         [Test]
         public void RecipeListCommandTest()
         {
-            var actualResult = new RecipeListCommand().Execute(database, null).Result;
+            var actualResult = new RecipeListCommand(database).Execute(null).Result;
             var expectedResult = "1. бутерброд\n2. кекс\n";
             Assert.AreEqual(expectedResult, actualResult);
         }
@@ -33,8 +33,8 @@ namespace Tests
         [Test]
         public void RecipeByNameCommandGoodTest()
         {
-            var actualResult = new RecipeByNameCommand()
-                .Execute(database, new string[] { "КЕКС" });
+            var actualResult = new RecipeByNameCommand(database)
+                .Execute( new string[] { "КЕКС" });
             Assert.AreEqual(BotCode.Good, actualResult.Code);
             Assert.AreEqual(database.GetRecipe("кекс").GetPrintableView(), actualResult.Result);
         }
@@ -42,17 +42,16 @@ namespace Tests
         [Test]
         public void RecipeByNameCommandBadTest()
         {
-            var com = new RecipeByNameCommand();
-            var actualResult = new RecipeByNameCommand()
-                .Execute(database, new string[] { "молоко" }).Code;
+            var actualResult = new RecipeByNameCommand(database)
+                .Execute(new string[] { "молоко" }).Code;
             Assert.AreEqual(BotCode.Bad, actualResult);
         }
 
         [Test]
         public void RecipeByIngredientsCommandGoodTest()
         {
-            var actualResult = new RecipeByIngredientsCommand()
-                .Execute(database, new string[] { "хлеб" });
+            var actualResult = new RecipeByIngredientsCommand(database)
+                .Execute(new string[] { "хлеб" });
             Assert.AreEqual(BotCode.Good, actualResult.Code);
             Assert.AreEqual(database.GetRecipe("бутерброд").GetPrintableView(), actualResult.Result);
         }
@@ -60,24 +59,24 @@ namespace Tests
         [Test]
         public void RecipeByIngredientsCommandBadTest()
         {
-            var actualResult = new RecipeByIngredientsCommand()
-                .Execute(database, new string[] { "вода" });
+            var actualResult = new RecipeByIngredientsCommand(database)
+                .Execute(new string[] { "вода" });
             Assert.AreEqual(BotCode.Bad, actualResult.Code);
         }
     }
 
-    public class EasyDatabase : IDatabase<Recipe>
+    public class EasyDatabase : IDatabase<IRecipe>
     {
-        public List<Recipe> Recipes;
+        public List<IRecipe> Recipes;
 
-        public Recipe GetRecipe(string name)
+        public IRecipe GetRecipe(string name)
         {
             return Recipes.Where(rec => rec.Name == name).First();
         }
 
         public EasyDatabase()
         {
-            Recipes = new List<Recipe>()
+            Recipes = new List<IRecipe>()
             {
                 new Recipe(
                     "бутерброд",
@@ -93,12 +92,12 @@ namespace Tests
             };
         }
 
-        public IEnumerable<Recipe> GetAllSuitable(Func<Recipe, bool> condition)
+        public IEnumerable<IRecipe> GetAllSuitable(Func<IRecipe, bool> condition)
         {
             return Recipes.Where(condition);
         }
 
-        public Recipe GetAnySuitable(Func<Recipe, bool> condition)
+        public IRecipe GetAnySuitable(Func<IRecipe, bool> condition)
         {
             return Recipes.First(condition);
         }

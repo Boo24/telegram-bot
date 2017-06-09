@@ -31,10 +31,8 @@ namespace source
             container.Bind<string>().ToConstant(HelloMessage).Named("HelloMessage");
             container.Bind<IBot>().To<CookBot>();
             container.Bind<TelegramHandler>().ToSelf();
-
             container.Bind<IDatabase<IRecipe>>().
                 ToConstant(new ArrayDatabase<IRecipe>(databaseStream, new BinarySerializer()));
-
             container.Bind<Lazy<List<IBotCommand>>>().
                 ToConstant(new Lazy<List<IBotCommand>>(() => container.GetAll<IBotCommand>().ToList()));
 

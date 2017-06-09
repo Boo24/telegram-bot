@@ -11,8 +11,10 @@ namespace source.App.Commands
 
         private IDatabase<IRecipe> Database { get; }
 
-        public RecipeByIngredientsCommand(IDatabase<IRecipe> database) => Database = database;
-
+        public RecipeByIngredientsCommand(IDatabase<IRecipe> database)
+        {
+            Database = database;
+        }
         public BotCommandResult Execute(string[] arguments)
         {
             var suitableRecipes = Database.GetAllSuitable(x => arguments

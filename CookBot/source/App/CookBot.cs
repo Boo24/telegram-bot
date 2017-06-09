@@ -11,8 +11,9 @@ namespace source.App
         private List<IBotCommand> BotCommands { get; }
 
         public CookBot(List<IBotCommand> botCommands)
-            => BotCommands = botCommands;
-
+        {
+            BotCommands = botCommands;
+        }
         public string HandleCommand(string message)
         {
             var query = message.Split(' ');
@@ -26,7 +27,7 @@ namespace source.App
             var help = GetHelpCommand();
             return help != null ? help.Execute(query.Skip(1).ToArray()).Result : "Неизвестная команда!";
         }
-
-        private IBotCommand GetHelpCommand() => BotCommands.Find(x => x is HelpCommand);
+        private IBotCommand GetHelpCommand()
+            => BotCommands.Find(x => x is HelpCommand);
     }
 }

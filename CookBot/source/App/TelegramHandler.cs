@@ -29,8 +29,6 @@ namespace source.App
         public void Run()
         {
             TelegramClient.StartReceiving();
-            Console.ReadLine();
-            TelegramClient.StopReceiving();
         }
         public async void SendMessage(string message, long chatId)
         {
