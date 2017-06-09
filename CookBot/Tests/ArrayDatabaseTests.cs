@@ -21,9 +21,7 @@ namespace Tests
             A.CallTo(() => fakeSerializer.Deserialize<string[]>(A<Stream>.Ignored))
                 .Returns(data);
 
-            var fakeStream = A.Fake<Stream>();
-
-            database = new ArrayDatabase<string>(fakeStream, fakeSerializer);
+            database = new ArrayDatabase<string>(A.Fake<Stream>(), fakeSerializer);
         }
 
         [Test]
