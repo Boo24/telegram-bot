@@ -16,6 +16,7 @@ namespace source.App.Commands
         {
             Database = database;
         }
+
         public BotCommandResult Execute(string[] arguments)
         {
             var recipeName = string.Join(" ", arguments);

@@ -26,7 +26,7 @@ namespace Tests
 
             A.CallTo(() => fakeCommand.Name).Returns(fakeCommandName);
             database = A.Fake<IDatabase<Recipe>>();
-            cookBot = new CookBot(database, commandsList);
+            cookBot = new CookBot(commandsList);
         }
 
         [Test]

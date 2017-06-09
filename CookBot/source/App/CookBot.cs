@@ -8,14 +8,10 @@ namespace source.App
 {
     public class CookBot : IBot
     {
-        private IDatabase<IRecipe> Database { get; }
         private List<IBotCommand> BotCommands { get; }
 
-        public CookBot(IDatabase<IRecipe> database, List<IBotCommand> botCommands)
-        {
-            Database = database;
-            BotCommands = botCommands;
-        }
+        public CookBot(List<IBotCommand> botCommands)
+            => BotCommands = botCommands;
 
         public string HandleCommand(string message)
         {
@@ -30,7 +26,7 @@ namespace source.App
             var help = GetHelpCommand();
             return help != null ? help.Execute(query.Skip(1).ToArray()).Result : "Неизвестная команда!";
         }
-        private IBotCommand GetHelpCommand()
-            => BotCommands.Find(x => x is HelpCommand);
+
+        private IBotCommand GetHelpCommand() => BotCommands.Find(x => x is HelpCommand);
     }
 }
