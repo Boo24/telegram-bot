@@ -8,6 +8,7 @@ using NUnit.Framework.Constraints;
 using source.App.Commands;
 using source.Domain.Model;
 using source.Infrastructure.Databases;
+using System.Collections.Immutable;
 
 namespace Tests
 {
@@ -15,11 +16,38 @@ namespace Tests
     internal class CommandsTests
     {
         private EasyDatabase database;
+        private List<IRecipe> fakeRecipes;
 
         [SetUp]
         public void setUp()
         {
-            database = new EasyDatabase();
+            fakeRecipes = new List<IRecipe>();
+
+            var fakeRecipe1 = CreateFakeRecept("бутерброд", "хлеб", 1, "ед");
+            var fakeRecipe2 = CreateFakeRecept("кекс", "мука", 10, "кг");
+
+            fakeRecipes.Add(fakeRecipe1);
+            fakeRecipes.Add(fakeRecipe2);
+
+            database = new EasyDatabase(fakeRecipes);
+        }
+
+        public IRecipe CreateFakeRecept(string name, string ingrName, 
+            double ingrCount, string ingrMeasureUnit)
+        {
+            var fakeRecipe = A.Fake<IRecipe>();
+            var fakeIngredient = A.Fake<IIngredient>();
+            var fakeIngredientAmount = A.Fake<IIngredientAmount>();
+
+            A.CallTo(() => fakeRecipe.Name).Returns(name);
+            A.CallTo(() => fakeIngredient.Name).Returns(ingrName);
+            A.CallTo(() => fakeIngredientAmount.Count).Returns(ingrCount);
+            A.CallTo(() => fakeIngredientAmount.MeasureUnit).Returns(ingrMeasureUnit);
+            A.CallTo(() => fakeRecipe.Components)
+                .Returns(new Dictionary<IIngredient, IIngredientAmount>()
+                { { fakeIngredient, fakeIngredientAmount} }.ToImmutableDictionary());
+
+            return fakeRecipe;
         }
 
         [Test]
@@ -36,7 +64,7 @@ namespace Tests
             var actualResult = new RecipeByNameCommand(database)
                 .Execute( new string[] { "КЕКС" });
             Assert.AreEqual(BotCode.Good, actualResult.Code);
-            Assert.AreEqual(database.GetRecipe("кекс").GetPrintableView(), actualResult.Result);
+            Assert.AreEqual(fakeRecipes.ElementAt(1).GetPrintableView(), actualResult.Result);
         }
 
         [Test]
@@ -53,7 +81,7 @@ namespace Tests
             var actualResult = new RecipeByIngredientsCommand(database)
                 .Execute(new string[] { "хлеб" });
             Assert.AreEqual(BotCode.Good, actualResult.Code);
-            Assert.AreEqual(database.GetRecipe("бутерброд").GetPrintableView(), actualResult.Result);
+            Assert.AreEqual(fakeRecipes.ElementAt(0).GetPrintableView(), actualResult.Result);
         }
 
         [Test]
@@ -69,28 +97,8 @@ namespace Tests
     {
         public List<IRecipe> Recipes;
 
-        public IRecipe GetRecipe(string name)
-        {
-            return Recipes.Where(rec => rec.Name == name).First();
-        }
-
-        public EasyDatabase()
-        {
-            Recipes = new List<IRecipe>()
-            {
-                new Recipe(
-                    "бутерброд",
-                    "вкусный",
-                    new Dictionary<IIngredient, IIngredientAmount>() { {
-                            new Ingredient("хлеб"), new IngredientAmount(1, "ед") } }),
-                new Recipe(
-                    "кекс",
-                    "пышный",
-
-                    new Dictionary<IIngredient, IIngredientAmount>() { {
-                            new Ingredient("мука"), new IngredientAmount(10, "кг") } })
-            };
-        }
+        public EasyDatabase(List<IRecipe> fakeRecipes)
+            => Recipes = fakeRecipes;
 
         public IEnumerable<IRecipe> GetAllSuitable(Func<IRecipe, bool> condition)
         {
