@@ -7,13 +7,13 @@
 ## План презентации
 ### Суть проекта
 Данный бот позволяет по некоторым критериям получить рецепт. В данный момент поддерживаются следующие команды:
-* **/recipeName** - найти рецепт по названию.
-* **/recipeIngr** - получить список рецептов, в которых содержится указанный ингридиент.
-* **/recipeList** - отобразить список всех рецептов.
+* **/recipe** - найти рецепт по названию.
+* **/ingr** - получить список рецептов, в которых содержится указанный ингридиент.
+* **/all** - отобразить список всех рецептов.
 * **/help** - информация о поддерживаемых командах.
 
 #### Пример использования команды:
-![Example](Example.PNG)
+![Example](UsingExample.PNG)
 
 Легко добавлять новые типы команд и использовать различаные базы данных. Также существует более глобальная точка расширения [IBot](/CookBot/source/App/IBot.cs), о которой будет расказано ниже.
 
@@ -42,12 +42,14 @@
 ```C#
       try
       {
-          return db.GetAnySuitable(x => string.Equals(x.Name, recipeName,
-                      StringComparison.CurrentCultureIgnoreCase)).GetPrintableView();
+           var result = Database
+               .GetAnySuitable(x => string.Equals(x.Name, recipeName, StringComparison.CurrentCultureIgnoreCase))
+               .GetPrintableView();
+           return new BotCommandResult(BotCode.Good, result);
       }
       catch (InvalidOperationException)
       {
-          return "Подходящий рецепт не найден :(";
+           return new BotCommandResult(BotCode.Bad, "К сожалению, ничего подходящего не найдено :(");
       }
     
 ```
@@ -59,15 +61,16 @@
 3. [Слой приложения](/CookBot/source/App)
   Содержит непосредственно работу с Telegram API и команды бота. Не используется двумя предыдущими слоями, но использует их. Демонстрация работы с БД была выше. Работа с предметным слоем происходит при обработке команд (Получили рецепт и попросили у него отдаваемый пользователю вид):
 ```C#
- public string Execute(IDatabase<Recipe> db, params string[] arguments)
+public BotCommandResult Execute(string[] arguments)
         {
-            var suitableRecipes = db.GetAllSuitable(x => arguments
+            var suitableRecipes = Database.GetAllSuitable(x => arguments
                         .All(z => x.Components.Keys.Select(y => y.Name.ToLower()).Contains(z.ToLower())));
 
             if (!suitableRecipes.Any())
-                return "Нет подходящих рецептов :(";
+                return new BotCommandResult(BotCode.Bad, "К сожалению, ничего подходящего не найдено: (");
 
-            return String.Join("\n", suitableRecipes.Select(res => res.GetPrintableView()));
+            return new BotCommandResult(BotCode.Good,
+                string.Join("\n", suitableRecipes.Select(res => res.GetPrintableView())));
         }
 ```
 Один из наиболее важных классов слоя приложения - класс [TelegramHandler.cs](/CookBot/source/App/TelegramHandler.cs)
