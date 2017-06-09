@@ -52,7 +52,6 @@ namespace Tests
         {
             Assert.That(() => database.GetAnySuitable(str => str == "missing"),
                 Throws.TypeOf<InvalidOperationException>());
-            
         }
     }
 }

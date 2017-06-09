@@ -37,7 +37,6 @@ namespace Tests
             A.CallTo(() => fakeCommand.Execute(A<IDatabase<Recipe>>.Ignored, 
                 A<string[]>.Ignored)).Returns(expectedResult);
 
-            
             var commandResult = cookBot.HandleCommand(fakeCommandName);
             Assert.AreEqual(commandResult, "expectedResult");
         }
@@ -53,9 +52,8 @@ namespace Tests
         [Test]
         public void should_parse_arguments()
         {
-            var arguments = new string[] { "arg1", "arg2" };
             cookBot.HandleCommand("/fakeCommand arg1 arg2");
-            A.CallTo(() => fakeCommand.Execute(A<IDatabase<Recipe>>.Ignored, arguments))
+            A.CallTo(() => fakeCommand.Execute(A<IDatabase<Recipe>>.Ignored, A<string[]>.Ignored))
                 .WhenArgumentsMatch((IDatabase<Recipe> db, string[] str) => str[0] == "arg1" && str[1] == "arg2")
                 .MustHaveHappened();
         }
