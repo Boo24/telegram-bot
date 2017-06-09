@@ -12,9 +12,8 @@ namespace source.App.Commands
     {
         public string Name => "/all";
         public string Description => "отобразить список всех рецептов";
-        public string Result { get; private set; }
 
-        public BotCommandResult Execute(IDatabase<Recipe> db, string[] arguments)
+        public string Execute(IDatabase<Recipe> db, string[] arguments)
         {
             var recipesNames = db.GetAllSuitable(_ => true).Select(recipe => recipe.Name).ToArray();
             var result = new StringBuilder();
@@ -22,8 +21,7 @@ namespace source.App.Commands
             {
                 result.Append((i + 1) + ". " + recipesNames[i] + "\n");
             }
-            Result = result.ToString();
-            return BotCommandResult.Good;
+            return result.ToString();
         }
     }
 }

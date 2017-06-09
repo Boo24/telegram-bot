@@ -11,10 +11,10 @@ namespace source.Infrastructure.Databases
         private T[] Data { get; }
         private ISerializer Serializer { get; }
 
-        public ArrayDatabase(string fileName, ISerializer serializer)
+        public ArrayDatabase(Stream stream, ISerializer serializer)
         {
             Serializer = serializer;
-            Data = LoadDatabase(fileName);
+            Data = LoadDatabase(stream);
         }
 
         public IEnumerable<T> GetAllSuitable(Func<T, bool> condition) =>
@@ -32,19 +32,11 @@ namespace source.Infrastructure.Databases
             }
         }
 
-        private T[] LoadDatabase(string fileName)
+        private T[] LoadDatabase(Stream stream)
         {
-            using (Stream stream = File.OpenRead(fileName))
+            using (stream)
             {
                 return Serializer.Deserialize<T[]>(stream);
-            }
-        }
-
-        public void SaveDatabase(string fileName)
-        {
-            using (Stream stream = File.OpenWrite(fileName))
-            {
-                Serializer.Serialize(Data, stream);
             }
         }
     }

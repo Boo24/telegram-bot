@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using source.Domain.Model;
 using source.Infrastructure.Databases;
@@ -9,8 +8,8 @@ namespace source.App
 {
     public class CookBot : IBot
     {
-        public IDatabase<Recipe> Database { get; }
-        public List<IBotCommand> BotCommands { get; }
+        private IDatabase<Recipe> Database { get; }
+        private List<IBotCommand> BotCommands { get; }
 
         public CookBot(IDatabase<Recipe> database, List<IBotCommand> botCommands)
         {
@@ -24,14 +23,11 @@ namespace source.App
             foreach (var command in BotCommands)
             {
                 if (command.Name != query[0]) continue;
-                var result = command.Execute(Database, query.Skip(1).ToArray());
-                if (result == BotCommandResult.Bad)
-                    return "Нет подходящих рецептов :(";
-                return command.Result;
-
+                var args = query.Skip(1).ToArray();
+                return command.Execute(Database, args);
             }
             var help = GetHelpCommand();
-            return help != null ? help.Result : "Неизвестная команда!";
+            return help != null ? help.Execute(Database, query.Skip(1).ToArray()) : "Неизвестная команда!";
         }
         private IBotCommand GetHelpCommand()
             => BotCommands.Find(x => x is HelpCommand);

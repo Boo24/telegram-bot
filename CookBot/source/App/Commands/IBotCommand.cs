@@ -8,17 +8,10 @@ using source.Infrastructure.Databases;
 
 namespace source.App.Commands
 {
-    public enum BotCommandResult
-    {
-        Good,
-        Bad
-    }
-
     public interface IBotCommand
     {
         string Name { get; }
         string Description { get; }
-        string Result { get; }
-        BotCommandResult Execute(IDatabase<Recipe> db, string[] arguments);
+        string Execute(IDatabase<Recipe> db, string[] arguments);
     }
 }

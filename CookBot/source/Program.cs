@@ -8,12 +8,13 @@ using Ninject;
 using Ninject.Extensions.Conventions;
 using source.App;
 using System.Collections.Generic;
+using System.IO;
 
 namespace source
 {
     class Program
     {
-        private const string DB = @"..\..\..\databases\ArrayDatabase.bin";
+        static Stream databaseStream = new FileStream(@"..\..\..\databases\ArrayDatabase.bin", FileMode.Open);
         private const string HelloMessage = "Привет! Меня зовут Cook Bot! " +
                                             "У меня самые лучшие рецепты." +
                                             " Вот список команд, которые я могу выполнить: ";
@@ -30,10 +31,13 @@ namespace source
             container.Bind<string>().ToConstant(HelloMessage).Named("HelloMessage");
             container.Bind<IBot>().To<CookBot>();
             container.Bind<TelegramHandler>().ToSelf();
-            container.Bind<IDatabase<Recipe>>().ToConstant(new ArrayDatabase<Recipe>(DB, new BinarySerializer()));
-            container.Bind<Lazy<List<IBotCommand>>>().ToConstant(new Lazy<List<IBotCommand>>(() => container
-                                                                           .GetAll<IBotCommand>()
-                                                                           .ToList()));
+
+            container.Bind<IDatabase<Recipe>>().
+                ToConstant(new ArrayDatabase<Recipe>(databaseStream, new BinarySerializer()));
+
+            container.Bind<Lazy<List<IBotCommand>>>().
+                ToConstant(new Lazy<List<IBotCommand>>(() => container.GetAll<IBotCommand>().ToList()));
+
             return container;
         }
 
