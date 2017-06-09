@@ -32,12 +32,12 @@ namespace Tests
         [Test]
         public void should_find_and_execute_command()
         {
-            var expectedResult = "expectedResult";
+            var expectedResult = new BotCommandResult(BotCode.Good, "expectedResult");
 
-            A.CallTo(() => fakeCommand.Execute(A<IDatabase<Recipe>>.Ignored, 
+            A.CallTo(() => fakeCommand.Execute(A<IDatabase<Recipe>>.Ignored,
                 A<string[]>.Ignored)).Returns(expectedResult);
 
-            
+
             var commandResult = cookBot.HandleCommand(fakeCommandName);
             Assert.AreEqual(commandResult, "expectedResult");
         }

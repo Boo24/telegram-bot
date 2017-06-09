@@ -10,7 +10,7 @@ namespace source.App.Commands
         public string Name => "/recipe";
         public string Description => "найти рецепт по названию";
 
-        public string Execute(IDatabase<Recipe> db, string[] arguments)
+        public BotCommandResult Execute(IDatabase<Recipe> db, string[] arguments)
         {
             var recipeName = string.Join(" ", arguments);
             try
@@ -18,11 +18,11 @@ namespace source.App.Commands
                 var result = db
                     .GetAnySuitable(x => string.Equals(x.Name, recipeName, StringComparison.CurrentCultureIgnoreCase))
                     .GetPrintableView();
-                return result;
+                return new BotCommandResult(BotCode.Good, result);
             }
             catch (InvalidOperationException)
             {
-                return "Нет подходящего рецепта";
+                return new BotCommandResult(BotCode.Bad);
             }
         }
     }

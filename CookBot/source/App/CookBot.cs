@@ -24,10 +24,13 @@ namespace source.App
             {
                 if (command.Name != query[0]) continue;
                 var args = query.Skip(1).ToArray();
-                return command.Execute(Database, args);
+                var commandResult = command.Execute(Database, args);
+                if (commandResult.Code == BotCode.Bad)
+                    return "К сожалению, ничего подходящего не найдено :(";
+                return commandResult.Result;
             }
             var help = GetHelpCommand();
-            return help != null ? help.Execute(Database, query.Skip(1).ToArray()) : "Неизвестная команда!";
+            return help != null ? help.Execute(Database, query.Skip(1).ToArray()).Result : "Неизвестная команда!";
         }
         private IBotCommand GetHelpCommand()
             => BotCommands.Find(x => x is HelpCommand);

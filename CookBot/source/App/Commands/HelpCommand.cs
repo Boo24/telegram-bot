@@ -20,11 +20,11 @@ namespace source.App.Commands
             this.commands = commands;
         }
 
-        public string Execute(IDatabase<Recipe> db, string[] arguments)
+        public BotCommandResult Execute(IDatabase<Recipe> db, string[] arguments)
         {
             var result = helloMessage + "\n";
             result += string.Join("\n", commands.Value.Select(command => $"{command.Name} - {command.Description}."));
-            return result;
+            return new BotCommandResult(BotCode.Good, result);
         }
     }
 }

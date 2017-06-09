@@ -24,6 +24,13 @@ namespace source.Domain.Model
             components = new Dictionary<IIngredient, IIngredientAmount>();
         }
 
+        public Recipe(string name, string description, Dictionary<IIngredient, IIngredientAmount> components)
+        {
+            Name = name;
+            Description = description;
+            this.components = components;
+        }
+
         public string GetPrintableView()
         {
             string result = $"*Название: {Name}\n*Рецепт: {Description}\n*Ингридиенты:\n";
