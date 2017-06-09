@@ -25,8 +25,6 @@ namespace source.App
                 if (command.Name != query[0]) continue;
                 var args = query.Skip(1).ToArray();
                 var commandResult = command.Execute(Database, args);
-                if (commandResult.Code == BotCode.Bad)
-                    return "К сожалению, ничего подходящего не найдено :(";
                 return commandResult.Result;
             }
             var help = GetHelpCommand();

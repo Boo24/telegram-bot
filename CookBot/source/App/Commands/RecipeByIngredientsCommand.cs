@@ -15,7 +15,7 @@ namespace source.App.Commands
                         .All(z => x.Components.Keys.Select(y => y.Name.ToLower()).Contains(z.ToLower())));
 
             if (!suitableRecipes.Any())
-                return new BotCommandResult(BotCode.Bad);
+                return new BotCommandResult(BotCode.Bad, "К сожалению, ничего подходящего не найдено: (");
 
             return new BotCommandResult(
                 BotCode.Good,

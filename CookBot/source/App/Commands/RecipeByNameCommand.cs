@@ -22,7 +22,7 @@ namespace source.App.Commands
             }
             catch (InvalidOperationException)
             {
-                return new BotCommandResult(BotCode.Bad);
+                return new BotCommandResult(BotCode.Bad, "К сожалению, ничего подходящего не найдено :(");
             }
         }
     }
