@@ -21,13 +21,8 @@ namespace source.App
         public TelegramHandler(IBot bot)
         {
             Bot = bot;
-          
-            TelegramClient.OnCallbackQuery += BotOnCallbackQueryReceived;
             TelegramClient.OnMessage += BotOnMessageReceived;
-            TelegramClient.OnMessageEdited += BotOnMessageReceived;
-            TelegramClient.OnInlineQuery += BotOnInlineQueryReceived;
-            TelegramClient.OnInlineResultChosen += BotOnChosenInlineResultReceived;
-            TelegramClient.OnReceiveError += BotOnReceiveError;
+
 
             var me = TelegramClient.GetMeAsync().Result;
         }
@@ -42,18 +37,6 @@ namespace source.App
             await TelegramClient.SendTextMessageAsync(chatId, message);
         }
 
-        private static void BotOnReceiveError(object sender, ReceiveErrorEventArgs receiveErrorEventArgs)
-        {
-            Console.WriteLine("BotOnReceiveError");
-            Debugger.Break();
-        }
-
-        private static void BotOnChosenInlineResultReceived(object sender, ChosenInlineResultEventArgs chosenInlineResultEventArgs)
-        {
-            Console.WriteLine("BotOnChosenInlineResultReceived");
-            Console.WriteLine($"Received choosen inline result: {chosenInlineResultEventArgs.ChosenInlineResult.ResultId}");
-        }
-
         private async void BotOnMessageReceived(object sender, MessageEventArgs messageEventArgs)
         {
             Console.WriteLine("BotOnMessageReceived");
@@ -63,27 +46,6 @@ namespace source.App
             await TelegramClient.SendChatActionAsync(message.Chat.Id, ChatAction.Typing);
             var answer = Bot.HandleCommand(message.Text);
             await TelegramClient.SendTextMessageAsync(message.Chat.Id, answer);
-        }
-
-        private static async void BotOnInlineQueryReceived(object sender, InlineQueryEventArgs inlineQueryEventArgs)
-        {
-            Console.WriteLine("BotOnInlineQueryReceived");
-            InlineQueryResult[] results = null;
-
-            await TelegramClient.AnswerInlineQueryAsync(inlineQueryEventArgs.InlineQuery.Id, results, isPersonal: true, cacheTime: 0);
-        }
-        private static async void BotOnCallbackQueryReceived(object sender, CallbackQueryEventArgs callbackQueryEventArgs)
-        {
-            Console.WriteLine("BotOnCallbackQueryReceived");
-            await TelegramClient.AnswerCallbackQueryAsync(callbackQueryEventArgs.CallbackQuery.Id,
-                $"Received {callbackQueryEventArgs.CallbackQuery.Data}");
-        }
-
-        private static async void BotOnUpdate(EventHandler<UpdateEventArgs> args)
-        {
-            Console.WriteLine("OnUpdate");
-            await TelegramClient.AnswerCallbackQueryAsync(null);
-
         }
     }
 }
