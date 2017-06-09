@@ -23,8 +23,8 @@ namespace Tests
         {
             fakeRecipes = new List<IRecipe>();
 
-            var fakeRecipe1 = CreateFakeRecept("бутерброд", "хлеб", 1, "ед");
-            var fakeRecipe2 = CreateFakeRecept("кекс", "мука", 10, "кг");
+            var fakeRecipe1 = CreateFakeRecipe("бутерброд", "хлеб", 1, "ед");
+            var fakeRecipe2 = CreateFakeRecipe("кекс", "мука", 10, "кг");
 
             fakeRecipes.Add(fakeRecipe1);
             fakeRecipes.Add(fakeRecipe2);
@@ -32,7 +32,7 @@ namespace Tests
             database = new EasyDatabase(fakeRecipes);
         }
 
-        public IRecipe CreateFakeRecept(string name, string ingrName, 
+        public IRecipe CreateFakeRecipe(string name, string ingrName, 
             double ingrCount, string ingrMeasureUnit)
         {
             var fakeRecipe = A.Fake<IRecipe>();
