@@ -6,11 +6,11 @@ using source.App.Commands;
 
 namespace source.App
 {
-    public class CookBot : IBot
+    public class Bot : IBot
     {
         private List<IBotCommand> BotCommands { get; }
 
-        public CookBot(List<IBotCommand> botCommands)
+        public Bot(List<IBotCommand> botCommands)
         {
             BotCommands = botCommands;
         }

@@ -88,9 +88,9 @@
     <Compile Include="App\Commands\RecipeByIngredientsCommand.cs" />
     <Compile Include="App\Commands\RecipeByNameCommand.cs" />
     <Compile Include="App\Commands\RecipeListCommand.cs" />
-    <Compile Include="App\CookBot.cs" />
-    <Compile Include="App\HelloBot.cs" />
-    <Compile Include="App\IBot.cs" />
+    <Compile Include="App\Bot\Bot.cs" />
+    <Compile Include="App\Bot\HelloBot.cs" />
+    <Compile Include="App\Bot\IBot.cs" />
     <Compile Include="App\Commands\IBotCommand.cs" />
     <Compile Include="App\TelegramHandler.cs" />
     <Compile Include="App\Commands\BotCommandResult.cs" />

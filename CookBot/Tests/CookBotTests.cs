@@ -15,7 +15,7 @@ namespace Tests
         string fakeCommandName = "/fakeCommand";
         List<IBotCommand> commandsList;
         IDatabase<IRecipe> database;
-        CookBot cookBot;
+        Bot _bot;
 
         [SetUp]
         public void SetUp()
@@ -26,7 +26,7 @@ namespace Tests
 
             A.CallTo(() => fakeCommand.Name).Returns(fakeCommandName);
             database = A.Fake<IDatabase<IRecipe>>();
-            cookBot = new CookBot(commandsList);
+            _bot = new Bot(commandsList);
         }
 
         [Test]
@@ -36,21 +36,21 @@ namespace Tests
 
             A.CallTo(() => fakeCommand.Execute(A<string[]>.Ignored)).Returns(expectedResult);
 
-            var commandResult = cookBot.HandleCommand(fakeCommandName);
+            var commandResult = _bot.HandleCommand(fakeCommandName);
             Assert.AreEqual(commandResult, "expectedResult");
         }
 
         [Test]
         public void should_not_find_and_execute_command()
         {
-            cookBot.HandleCommand("Non-existent command");
+            _bot.HandleCommand("Non-existent command");
             A.CallTo(() => fakeCommand.Execute(A<string[]>.Ignored)).MustNotHaveHappened();
         }
 
         [Test]
         public void should_parse_arguments()
         {
-            cookBot.HandleCommand("/fakeCommand arg1 arg2");
+            _bot.HandleCommand("/fakeCommand arg1 arg2");
             A.CallTo(() => fakeCommand.Execute(A<string[]>.Ignored))
                 .WhenArgumentsMatch((string[] str) => str[0] == "arg1" && str[1] == "arg2")
                 .MustHaveHappened();

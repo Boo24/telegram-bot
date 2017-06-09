@@ -29,7 +29,7 @@ namespace source
                                 .Configure(y => y.InSingletonScope()
                                 ));
             container.Bind<string>().ToConstant(HelloMessage).Named("HelloMessage");
-            container.Bind<IBot>().To<CookBot>();
+            container.Bind<IBot>().To<Bot>();
             container.Bind<TelegramHandler>().ToSelf();
             container.Bind<IDatabase<IRecipe>>().
                 ToConstant(new ArrayDatabase<IRecipe>(databaseStream, new BinarySerializer()));
